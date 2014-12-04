@@ -1,0 +1,31 @@
+<?php
+	error_reporting(0);
+	$day_diff=0;
+	if(isset($_POST['bday'])&&$_POST['bday']){
+		$from_date = $_POST['bday'];
+		$from_date = str_replace('/', '-', $from_date);  // if user type dob in d/m/y format, it will convert that in d-m-y format
+		$from_date = strtotime($from_date); 
+		$to_date = time(); // current date
+		if($from_date > $to_date){  // Error: Dob cant be greater than current date
+			$day_diff="Error! DOB can't be greater than Current date";
+		}
+		else{
+			$day_diff = $to_date - $from_date;
+			$day_diff =floor($day_diff/(60*60*24))+1;
+		}
+	}
+?>
+
+<div id="date1" class="datefield" style="font-family:Verdana, Geneva, sans-serif">
+	<form method="post" name="dob_form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?> ">
+   		Date of birth:
+  		<input type="date" name="bday" placeholder="dd-mm-yyyy" required="required">
+  		<input type="submit">
+        <br/>
+        <br/>
+        <span><?php if(isset($day_diff)&&$day_diff)echo "Number of days:".$day_diff; ?></span><br/><br/>
+        <span style="font-size:11px; ">
+        	Note: <br/>1. For using calender, use Chrome or HTML5 supporting browser, <br/>2. Enter date in dd-mm-yyyy format
+        </span>
+    </form>
+</div>
